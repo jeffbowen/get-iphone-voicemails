@@ -1,8 +1,6 @@
 #!/bin/bash
 #
-# Author: Jeff Bowen (jeff.d.bowen@gmail.com)
-#
-# Bash script to copy voicemails out of an iPhone backup.
+# Bash script to copy voicemails out of an iPhone backup
 
 BACKUPS="${HOME}/Library/Application Support/MobileSync/Backup/"
 LATEST="${BACKUPS}"$(ls -t "${BACKUPS}" | head -n 1)/
