@@ -7,6 +7,7 @@ LATEST="${BACKUPS}"$(ls -t "${BACKUPS}" | head -n 1)/
 DESTINATION="${HOME}/Downloads/Voicemails"
 VOICEMAIL_DIR="HomeDomain-Library/Voicemail"
 VOICEMAIL_DB_HASH=$(echo -n "${VOICEMAIL_DIR}/voicemail.db" | openssl sha1)
+VOICEMAIL_DB_DIR=$(echo -n "${VOICEMAIL_DB_HASH}" | head -c2)
 
 # For future use
 CONTACTS_DB="HomeDomain-Library/AddressBook/AddressBook.sqlitedb"
@@ -26,8 +27,8 @@ mkdir -p "${DESTINATION}"
 
 # Retrieve and copy voicemails
 SQL="select ROWID, date, sender from voicemail"
-VOICEMAILS=$(sqlite3 ${VOICEMAIL_DB_HASH} "${SQL}")
-VOICEMAIL_COUNT=$(sqlite3 ${VOICEMAIL_DB_HASH} "select count(*) from voicemail")
+VOICEMAILS=$(sqlite3 "${VOICEMAIL_DB_DIR}/${VOICEMAIL_DB_HASH}" "${SQL}")
+VOICEMAIL_COUNT=$(sqlite3 "${VOICEMAIL_DB_DIR}/${VOICEMAIL_DB_HASH}" "select count(*) from voicemail")
 for voicemail in ${VOICEMAILS}
 do
   ID=$(echo ${voicemail} | awk -F"|" '{ print $1 }')
@@ -38,7 +39,8 @@ do
     FROM="Unknown"
   fi
   VM=$(echo -n "${VOICEMAIL_DIR}/${ID}.amr" | openssl sha1)
-  cp ${VM} ${DESTINATION}/"${DISPLAY_DATE}"\ from\ ${FROM}.amr
+  VM_DIR=$(echo -n "${VM}" | head -c2)
+  cp ${VM_DIR}/${VM} ${DESTINATION}/"${DISPLAY_DATE}"\ from\ ${FROM}.amr
 done
 
 # Display results
