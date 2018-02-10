@@ -1,7 +1,7 @@
 Get iPhone Voicemails
 =====================
 
-This simple Bash script will copy all voicemails out of your latest iOS 10 device
+This simple Bash script will copy all voicemails out of your latest iOS 10+ device
 backup to your `~/Downloads/` directory.
 
 Prerequesites
@@ -9,7 +9,7 @@ Prerequesites
 
 * macOS/OS X
 * iTunes
-* An iOS 10 device backup
+* An iOS 10+ device backup
 
 Usage
 -----
